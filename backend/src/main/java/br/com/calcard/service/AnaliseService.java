@@ -1,10 +1,11 @@
 package br.com.calcard.service;
 
-import br.com.calcard.model.Analise;
-import br.com.calcard.model.Cliente;
-import br.com.calcard.service.generic.GenericService;
+import br.com.calcard.dto.AnaliseDTO;
+import br.com.calcard.dto.ClienteDTO;
 
-public interface AnaliseService extends GenericService<Analise, Long> {
-
-	Analise retornaProposta(Cliente cliente);
+public interface AnaliseService {
+	
+	AnaliseDTO findByClienteCpf(String cpf);
+	
+	AnaliseDTO analisarCreditoCliente(ClienteDTO clienteDTO);
 }

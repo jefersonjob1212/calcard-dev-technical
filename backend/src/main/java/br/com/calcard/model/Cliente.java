@@ -3,10 +3,15 @@ package br.com.calcard.model;
 import java.math.BigDecimal;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
+
+import br.com.calcard.enums.EstadoCivilEnum;
+import br.com.calcard.enums.SexoEnum;
 
 @Entity
 public class Cliente {
@@ -22,9 +27,11 @@ public class Cliente {
 	
 	private Integer idade;
 	
-	private String sexo;
+	@Enumerated(EnumType.STRING)
+	private SexoEnum sexo;
 	
-	private String estadoCivil;
+	@Enumerated(EnumType.STRING)
+	private EstadoCivilEnum estadoCivil;
 	
 	private String estado;
 	
@@ -89,19 +96,19 @@ public class Cliente {
 		this.idade = idade;
 	}
 
-	public String getSexo() {
+	public SexoEnum getSexo() {
 		return sexo;
 	}
 
-	public void setSexo(String sexo) {
+	public void setSexo(SexoEnum sexo) {
 		this.sexo = sexo;
 	}
 
-	public String getEstadoCivil() {
+	public EstadoCivilEnum getEstadoCivil() {
 		return estadoCivil;
 	}
 
-	public void setEstadoCivil(String estadoCivil) {
+	public void setEstadoCivil(EstadoCivilEnum estadoCivil) {
 		this.estadoCivil = estadoCivil;
 	}
 

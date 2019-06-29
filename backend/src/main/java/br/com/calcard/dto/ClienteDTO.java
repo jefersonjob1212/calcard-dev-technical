@@ -2,6 +2,9 @@ package br.com.calcard.dto;
 
 import java.math.BigDecimal;
 
+import br.com.calcard.enums.EstadoCivilEnum;
+import br.com.calcard.enums.SexoEnum;
+
 public class ClienteDTO {
 
 	private Long id;
@@ -12,9 +15,9 @@ public class ClienteDTO {
 
 	private Integer idade;
 
-	private String sexo;
+	private SexoEnum sexo;
 
-	private String estadoCivil;
+	private EstadoCivilEnum estadoCivil;
 
 	private String estado;
 
@@ -54,19 +57,19 @@ public class ClienteDTO {
 		this.idade = idade;
 	}
 
-	public String getSexo() {
+	public SexoEnum getSexo() {
 		return sexo;
 	}
 
-	public void setSexo(String sexo) {
+	public void setSexo(SexoEnum sexo) {
 		this.sexo = sexo;
 	}
 
-	public String getEstadoCivil() {
+	public EstadoCivilEnum getEstadoCivil() {
 		return estadoCivil;
 	}
 
-	public void setEstadoCivil(String estadoCivil) {
+	public void setEstadoCivil(EstadoCivilEnum estadoCivil) {
 		this.estadoCivil = estadoCivil;
 	}
 

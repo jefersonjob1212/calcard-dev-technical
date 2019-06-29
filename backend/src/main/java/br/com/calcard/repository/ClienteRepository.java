@@ -1,9 +1,10 @@
 package br.com.calcard.repository;
 
-import br.com.calcard.model.Cliente;
-import br.com.calcard.repository.generic.GenericRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ClienteRepository extends GenericRepository<Cliente, Long> {
+import br.com.calcard.model.Cliente;
+
+public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 	
 	Cliente findByCpf(String cpf);
 
