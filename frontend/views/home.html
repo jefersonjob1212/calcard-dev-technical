@@ -1,1 +1,119 @@
-<h1>Vamos fazer seu crediário?</h1>
+<div class="my-3 p-3 bg-white rounded shadow-sm">
+    <h6 class="border-bottom border-gray pb-2 mb-0">Opções de consulta</h6>
+    <br>
+    <button type="button" class="btn btn-primary" ng-click="buscaAnalises()">
+        Listar todos
+    </button>
+    <button type="button" class="btn btn-outline-primary" ng-click="filterByCPF = !filterByCPF">
+        Buscar por CPF
+    </button>
+    <br><br>
+    <form ng-if="filterByCPF">
+        <div class="row">
+            <div class="col-4">
+                <input type="text" class="form-control" name="cpfFilter" ng-model="cpfFilter"
+                    placeholder="Entre com o CPF" mask="999.999.999-99">
+            </div>
+            <div class="col">
+                <button class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
+                    ng-click="buscarAnalisePorCpf(cpfFilter)">Localizar</button>
+            </div>
+        </div>
+    </form>
+</div>
+{{cpfFilter}}
+<div class="row" ng-if="showListaAnalise">
+    <table class="table table-hover table-responsive">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Idade</th>
+                <th>Sexo</th>
+                <th>Estado Civil</th>
+                <th>Estado (UF)</th>
+                <th>Renda</th>
+                <th>Dependentes</th>
+                <th>Resultado</th>
+                <th>Limite ou Motivo</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="analise in analises"
+                ng-class="{ 'table-success': analise.resultado, 'table-danger': !analise.resultado }">
+                <td>{{analise.cliente.nome}}</td>
+                <td>{{analise.cliente.idade}}</td>
+                <td>{{analise.cliente.sexo}}</td>
+                <td>{{analise.cliente.estadoCivil}}</td>
+                <td>{{analise.cliente.estado}}</td>
+                <td>{{analise.cliente.renda | currency: "R$"}}</td>
+                <td>{{analise.cliente.dependentes}}</td>
+                <td>
+                    <div ng-if="analise.resultado">Aprovado</div>
+                    <div ng-if="!analise.resultado">Reprovado</div>
+                </td>
+                <td>
+                    <div ng-if="analise.resultado">{{analise.limite}}</div>
+                    <div ng-if="!analise.resultado">{{analise.motivo}}</div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel">Dados da Análise</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body container">
+                <p>
+                    <div class="row">
+                        <label><b>Nome:</b></label>&nbsp;{{analise.cliente.nome}}
+                    </div>
+                    <div class="row">
+                        <label><b>Idade:</b></label>&nbsp;{{analise.cliente.idade}} anos
+                    </div>
+                    <div class="row">
+                        <label><b>Sexo:</b></label>&nbsp;{{analise.cliente.sexo}}
+                    </div>
+                    <div class="row">
+                        <label><b>Estado Civil:</b></label>&nbsp;{{analise.cliente.estadoCivil}}
+                    </div>
+                    <div class="row">
+                        <label><b>Estado (UF):</b></label>&nbsp;{{analise.cliente.estado}}
+                    </div>
+                    <div class="row">
+                        <label><b>Renda mensal:</b></label>&nbsp;{{analise.cliente.renda | currency: 'R$'}}
+                    </div>
+                    <div class="row">
+                        <label><b>Dependentes:</b></label>&nbsp;{{analise.cliente.dependentes}}
+                    </div>
+                    <div ng-if="analise.resultado">
+                        <div class="row">
+                            <label><b>Resultado:</b></label>&nbsp;Aprovado
+                        </div>
+                        <div class="row">
+                            <label><b>Limite concedido:</b></label>&nbsp;{{analise.limite}}
+                        </div>
+                    </div>
+                    <div ng-if="!analise.resultado">
+                        <div class="row">
+                            <label><b>Resultado:</b></label>&nbsp;Reprovado
+                        </div>
+                        <div class="row">
+                            <label><b>Motivo:</b></label>&nbsp;{{analise.motivo}}
+                        </div>
+                    </div>
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>

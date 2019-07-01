@@ -1,5 +1,7 @@
 package br.com.calcard.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -44,7 +46,7 @@ public class PropostaController {
 			)
 	})	
 	@PostMapping(path = "analisar", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public @ResponseBody AnaliseDTO testSalvarAnalise(@RequestBody ClienteDTO body) {
+	public @ResponseBody AnaliseDTO salvarAnalisar(@RequestBody ClienteDTO body) {
 		return analiseService.analisarCreditoCliente(body);
 	}
 	
@@ -67,5 +69,26 @@ public class PropostaController {
 	@GetMapping(path = "getPropostaCliente/{cpf}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public @ResponseBody AnaliseDTO getPropostaByClienteCpf(@PathVariable("cpf") String cpf) {
 		return analiseService.findByClienteCpf(cpf);
+	}
+	
+	@ApiOperation(
+			value="Lista todas as análises feitas",
+			response=Mensagem.class,
+			notes="Método que retorna as informações da proposta do cliente pelo CPF"
+	)
+	@ApiResponses(value = {
+			@ApiResponse(
+					code = 200,
+					message = "Retorna a listagem de propostas cadastradas",
+					response = Mensagem.class
+			),
+			@ApiResponse(
+					code = 500,
+					message = "Lança exceção do sistema"
+			)
+	})
+	@GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public List<AnaliseDTO> getPropostas() {
+		return analiseService.findAll();
 	}
 }

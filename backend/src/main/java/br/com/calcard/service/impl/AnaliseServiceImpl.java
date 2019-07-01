@@ -2,9 +2,12 @@ package br.com.calcard.service.impl;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import br.com.calcard.dto.AnaliseDTO;
@@ -33,7 +36,7 @@ public class AnaliseServiceImpl implements AnaliseService {
 	@Override
 	public AnaliseDTO findByClienteCpf(String cpf) {
 		// TODO Auto-generated method stub
-		modelDTO = mapper.map(repository.findByClienteCpf(cpf), AnaliseDTO.class);
+		modelDTO = mapper.map(repository.findByClienteCpf(cpf.replaceAll("[^0-9]", "")), AnaliseDTO.class);
 		return modelDTO;
 	}
 
@@ -41,6 +44,7 @@ public class AnaliseServiceImpl implements AnaliseService {
 	public AnaliseDTO analisarCreditoCliente(ClienteDTO clienteDTO) {
 		// TODO Auto-generated method stub
 		DecimalFormat df = new DecimalFormat("R$ #,##0.00");
+		clienteDTO.setCpf(clienteDTO.getCpf().replaceAll("[^0-9]", ""));
 		modelDTO = new AnaliseDTO();
 		modelDTO.setCliente(clienteDTO);
 		BigDecimal taxaComprometimento = new BigDecimal(0.3);
@@ -137,5 +141,15 @@ public class AnaliseServiceImpl implements AnaliseService {
 		model = mapper.map(modelDTO, Analise.class);
 		Analise modelResponse = repository.save(model);
 		return mapper.map(modelResponse, AnaliseDTO.class);
+	}
+
+	@Override
+	public List<AnaliseDTO> findAll() {
+		// TODO Auto-generated method stub
+		return repository
+					.findAll(Sort.by(Sort.Direction.ASC, "cliente.nome"))
+					.stream()
+					.map(entity -> mapper.map(entity, AnaliseDTO.class))
+					.collect(Collectors.toList());
 	}
 }

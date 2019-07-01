@@ -1,10 +1,89 @@
 <h3>Cadastro</h3>
-<form>
+<form name="analiseForm" ng-submit="analisarProposta(analiseForm.$valid)">
     <div class="form-row">
-        <div class="form-group">
+        <div class="form-group col-3">
+            <label for="cpf">CPF</label>
+            <input type="text" name="cpf" id="cpf" class="form-control" 
+                id="cpf" ng-model="cliente.cpf"
+                placeholder="CPF" mask="999.999.999-99" required>
+        </div>
+        <div class="form-group col-9">
             <label for="nome">Nome</label>
-            <input type="text" class="form-control" id="nome" ng-model="cliente.nome" placeholder="Nome">
+            <input type="text" class="form-control" name="nome" id="nome" ng-model="cliente.nome" placeholder="Nome" required>
         </div>
     </div>
-    <button type="button" class="btn btn-primary" ng-click="analisarProposta()"><span></span>Check name</button>
+    <div class="form-row">
+        <div class="form-group col-3">
+            <label for="idade">Idade</label>
+            <input type="number" class="form-control" name="idade" id="idade" ng-model="cliente.idade" placeholder="Idade" required>
+        </div>
+        <div class="form-group col-3">
+            <label for="sexo">Sexo</label>
+            <select class="form-control" id="sexo" name="sexo" ng-model="cliente.sexo" required>
+                <option ng-repeat="sexo in sexoList" value="{{sexo.key}}">{{sexo.label}}</option>
+            </select>
+        </div>
+        <div class="form-group col-3">
+            <label for="estadoCivil">Estado Civil</label>
+            <select class="form-control" id="estadoCivil" name="estadoCivil" ng-model="cliente.estadoCivil" required>
+                <option ng-repeat="es in estadoCivilList" value="{{es.key}}">{{es.label}}</option>
+            </select>
+        </div>
+        <div class="form-group col-3">
+            <label for="estado">Estado (UF)</label>
+            <select class="form-control" name="estado" id="estado" ng-model="cliente.estado" required>
+                <option ng-repeat="uf in estadosList" value="{{uf.key}}">{{uf.label}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-3">
+            <label for="renda">Renda</label>
+            <input type="number" step="0.01" class="form-control" name="renda" 
+                id="renda" ng-model="cliente.renda" 
+                placeholder="Renda" required>
+        </div>
+        <div class="form-group col-3">
+            <label for="dependentes">Número de dependentes</label>
+            <input type="number" class="form-control" name="renda" id="renda" ng-model="cliente.dependentes"
+                placeholder="Dependentes" min="0" required>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary" ng-disabled="analiseForm.$invalid">Analisar</button>
+    <button type="button" class="btn btn-default" ng-click="limparCliente()">Limpar</button>
 </form>
+<div class="row" ng-if="showResult">
+    <div ng-if="analise.resultado" class="alert alert-success col">
+        <h3>Crédito Aprovado</h3>
+        <h5>Limite: {{analise.motivo}}</h5>
+    </div>
+    <div ng-if="!analise.resultado" class="alert alert-danger col">
+        <h3>Crédito Negado</h3>
+        <h5>Motivo: {{analise.motivo}}</h5>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Idade</th>
+                <th>Sexo</th>
+                <th>Estado Civil</th>
+                <th>Estado (UF)</th>
+                <th>Renda</th>
+                <th>Dependentes</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{analise.cliente.nome}}</td>
+                <td>{{analise.cliente.idade}}</td>
+                <td>{{analise.cliente.sexo}}</td>
+                <td>{{analise.cliente.estadoCivil}}</td>
+                <td>{{analise.cliente.estado}}</td>
+                <td>{{analise.cliente.renda}}</td>
+                <td>{{analise.cliente.dependentes}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
